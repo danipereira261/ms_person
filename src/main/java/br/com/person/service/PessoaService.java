@@ -22,4 +22,18 @@ public class PessoaService {
                 .cpf(dadosPessoa.getCpf())
                 .build());
     }
+
+    public DadosPessoa buscaCpf(String cpf) {
+
+        PessoaModel pessoa = pessoaRepository.findByCpf(cpf);
+
+        return DadosPessoa.
+                builder()
+                .nome(pessoa.getNome())
+                .sobrenome(pessoa.getSobrenome())
+                .idade(pessoa.getIdade())
+                .rg(pessoa.getRg())
+                .cpf(pessoa.getCpf())
+                .build();
+    }
 }
