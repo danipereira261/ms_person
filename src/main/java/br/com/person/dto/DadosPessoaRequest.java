@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DadosPessoa {
+public class DadosPessoaRequest {
 
     @NotNull(message = "Nome é obrigatório")
     @NotEmpty(message = "Nome não pode ser vazio")
@@ -36,4 +36,8 @@ public class DadosPessoa {
     @NotEmpty(message = "CPF não pode ser vazio")
     @CPF
     private String cpf;
+
+    @NotNull(message = "CEP é obrigatório")
+    @NotEmpty(message = "CEP não pode ser vazio")
+    private String cep;
 }

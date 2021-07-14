@@ -1,6 +1,7 @@
 package br.com.person.controller;
 
-import br.com.person.dto.DadosPessoa;
+import br.com.person.dto.DadosPessoaRequest;
+import br.com.person.dto.DadosPessoaResponse;
 import br.com.person.dto.DefautResponse;
 import br.com.person.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,8 @@ public class PessoaController {
     private PessoaService pessoaService;
 
     @PostMapping
-    public ResponseEntity<DefautResponse> cadastrar(@Valid @RequestBody DadosPessoa dadosPessoa) {
-        pessoaService.save(dadosPessoa);
+    public ResponseEntity<DefautResponse> cadastrar(@Valid @RequestBody DadosPessoaRequest dadosPessoaRequest ) {
+        pessoaService.save(dadosPessoaRequest);
         return new ResponseEntity<>(DefautResponse
                 .builder()
                 .message("Dados resgitrados com sucesso")
@@ -27,7 +28,7 @@ public class PessoaController {
     }
 
     @GetMapping(value = "/listar-pessoas/{cpf}")
-    public ResponseEntity<DadosPessoa> listarPessoa(@PathVariable String cpf) {
+    public ResponseEntity<DadosPessoaResponse> listarPessoa(@PathVariable String cpf) {
         return new ResponseEntity<>(pessoaService.buscaCpf(cpf), HttpStatus.OK);
     }
 }

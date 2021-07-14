@@ -1,6 +1,8 @@
 package br.com.person.service;
 
-import br.com.person.dto.DadosPessoa;
+import br.com.person.dto.DadosPessoaRequest;
+import br.com.person.dto.DadosPessoaResponse;
+import br.com.person.gateway.IntegrationPersonAdress;
 import br.com.person.model.PessoaModel;
 import br.com.person.repository.PessoaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ public class PessoaService {
     @Autowired
     private PessoaRepository pessoaRepository;
 
-    public void save(DadosPessoa dadosPessoa) {
+    @Autowired
+    private IntegrationPersonAdress integrationPersonAdress;
+
+    public void save(DadosPessoaRequest dadosPessoa) {
         pessoaRepository.save(PessoaModel
                 .builder()
                 .nome(dadosPessoa.getNome())
@@ -20,20 +25,22 @@ public class PessoaService {
                 .idade(dadosPessoa.getIdade())
                 .rg(dadosPessoa.getRg())
                 .cpf(dadosPessoa.getCpf())
+                .cep(dadosPessoa.getCep())
                 .build());
     }
 
-    public DadosPessoa buscaCpf(String cpf) {
+    public DadosPessoaResponse buscaCpf(String cpf) {
 
         PessoaModel pessoa = pessoaRepository.findByCpf(cpf);
 
-        return DadosPessoa.
+        return DadosPessoaResponse.
                 builder()
                 .nome(pessoa.getNome())
                 .sobrenome(pessoa.getSobrenome())
                 .idade(pessoa.getIdade())
                 .rg(pessoa.getRg())
                 .cpf(pessoa.getCpf())
+                .dadosEndereco(integrationPersonAdress.getAdress(pessoa.getCep()))
                 .build();
     }
 }
